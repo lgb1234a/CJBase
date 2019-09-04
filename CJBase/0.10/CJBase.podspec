@@ -13,6 +13,7 @@ Pod::Spec.new do |spec|
 
   spec.dependency 'AFNetworking'
   spec.dependency 'NIMKit'
+  spec.dependency 'NIMSDK_LITE'
   spec.dependency 'YYModel'
   spec.dependency 'Reachability'
   spec.dependency 'MBProgressHUD'
