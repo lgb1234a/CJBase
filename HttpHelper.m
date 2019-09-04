@@ -217,7 +217,7 @@ static inline NSString *signForUrlString(NSString *urlStr)
     if (params) {
         NSError *error = nil;
         body = [NSJSONSerialization dataWithJSONObject:params options:NSJSONWritingPrettyPrinted error:&error];
-        ZZLog(@"%@", error);
+        NSLog(@"%@", error);
     }
     NSString *requestUrl = url;
     
@@ -244,7 +244,7 @@ static inline NSString *signForUrlString(NSString *urlStr)
                                                  nil];
     self.manager.responseSerializer = responseSerializer;
     
-    ZZLog(@"请求的URL：%@,参数为%@,请求的头为%@",requestUrl,params,request.allHTTPHeaderFields);
+    NSLog(@"请求的URL：%@,参数为%@,请求的头为%@",requestUrl,params,request.allHTTPHeaderFields);
     
     NSURLSessionDataTask *task = [self.manager dataTaskWithRequest:request uploadProgress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -258,7 +258,7 @@ static inline NSString *signForUrlString(NSString *urlStr)
         
         if (!error) {
             NSString *jsonstring=[[NSString alloc]initWithData:responseObject encoding:NSUTF8StringEncoding];
-            ZZLog(@"json:%@",jsonstring);
+            NSLog(@"json:%@",jsonstring);
             if (jsonstring) {
                 NSDictionary *dic = [jsonstring jsonStringToDictionaryOrArray];
                 BaseModel *model = [BaseModel yy_modelWithJSON:dic];
@@ -287,7 +287,7 @@ static inline NSString *signForUrlString(NSString *urlStr)
             if (error){
                 NSData *data = error.userInfo[@"com.alamofire.serialization.response.error.data"];
                 NSString *errorsStr = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-                ZZLog(@"解析失败--%@---%@",url,errorsStr);
+                NSLog(@"解析失败--%@---%@",url,errorsStr);
             }
             [UIViewController showMessage:@"网络开小差了~" afterDelay:1];
             failure(error);
@@ -434,7 +434,7 @@ static inline NSString *signForUrlString(NSString *urlStr)
     if (params) {
         NSString *query = stringAppding(YXQueryStringFromParameters(params), @"&",soltKeyValueStr, nil);
         query = [query urlDecodedString];
-        ZZLog(@"签名：%@， MD5值：%@", query, [query MD5String]);
+        NSLog(@"签名：%@， MD5值：%@", query, [query MD5String]);
         return [query MD5String] ? : @"";
     }else{
         return [soltKeyValueStr MD5String] ? : @"";
