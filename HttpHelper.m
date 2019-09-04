@@ -15,6 +15,9 @@
 #import "HttpConstant.h"
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#import "NSString+Cajian.h"
+#import "UIViewController+HUD.h"
+#import "XTSafeCollection.h"
 
 // 字符串拼接函数
 NSString *stringAppding(NSString *baseString, ...) {

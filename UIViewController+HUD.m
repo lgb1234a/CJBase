@@ -7,6 +7,7 @@
 //
 
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "UIViewController+HUD.h"
 #define kLastWindow [UIApplication sharedApplication].keyWindow
 
 // 注册接口签名不一致
@@ -19,8 +20,6 @@ static inline UIWindow *getkeyWindow(UIWindow *window)
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     return [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, screenSize.width, screenSize.height)];
 }
-
-#import "UIViewController+HUD.h"
 
 
 @implementation UIViewController (HUD)
