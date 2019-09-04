@@ -11,7 +11,7 @@ Pod::Spec.new do |spec|
 
   spec.framework      = 'SystemConfiguration'
 
-  # spec.dependency 'AFNetworking'
+  spec.dependency 'AFNetworking'
   # spec.dependency 'NIMKit'
   # spec.dependency 'YYModel'
   # spec.dependency 'Reachability'
