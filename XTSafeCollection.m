@@ -214,7 +214,7 @@
 
 - (BOOL)isEmptyIgnoringWhitespace:(BOOL)ignoreWhitespace str:(NSString *)str
 {
-    NSString *toCheck = (ignoreWhitespace) ? [self stringByTrimmingWhitespace:str] : self;
+    NSString *toCheck = (ignoreWhitespace) ? [self stringByTrimmingWhitespace:str] : str;
     return [toCheck isEqualToString:@""];
 }
 
