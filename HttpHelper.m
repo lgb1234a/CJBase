@@ -18,6 +18,7 @@
 #import "NSString+Cajian.h"
 #import "UIViewController+HUD.h"
 #import "XTSafeCollection.h"
+#import <YYModel/YYModel.h>
 
 // 字符串拼接函数
 NSString *stringAppding(NSString *baseString, ...) {
