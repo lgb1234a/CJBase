@@ -6,7 +6,7 @@
 //  Copyright © 2019年 Netease. All rights reserved.
 //
 
-#import <MBProgressHUD.h>
+#import <MBProgressHUD/MBProgressHUD.h>
 #define kLastWindow [UIApplication sharedApplication].keyWindow
 
 // 注册接口签名不一致

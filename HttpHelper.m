@@ -7,7 +7,7 @@
 //
 
 #import "HttpHelper.h"
-#import <AFNetworking.h>
+#import <AFNetworking/AFNetworking.h>
 #import <NIMSDK/NIMSDK.h>
 #import "BaseModel.h"
 #import "sys/utsname.h"
