@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name          = 'CJBase'
-  spec.version       = '0.09'
+  spec.version       = '0.11'
   spec.license       = 'Copyright (c) 2019年 Chenyn. All rights reserved.'
   spec.homepage      = 'https://git.xq5.com/cajian/CJBase_flutter_iOS.git'
   spec.authors       = { 'Chenyn le' => 'chenynle@gmail.com' }
@@ -13,6 +13,7 @@ Pod::Spec.new do |spec|
 
   spec.dependency 'AFNetworking'
   spec.dependency 'NIMKit'
+  spec.dependency 'NIMSDK_LITE'
   spec.dependency 'YYModel'
   spec.dependency 'Reachability'
   spec.dependency 'MBProgressHUD'
