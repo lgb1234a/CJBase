@@ -17,4 +17,16 @@ Pod::Spec.new do |spec|
   spec.dependency 'YYModel'
   spec.dependency 'Reachability'
   spec.dependency 'MBProgressHUD'
+
+  spec.subspec 'Base' do |b|
+    b.source_files   = '*.{h,m}'
+  end
+
+  spec.subspec 'Category' do |c|
+    c.source_files   = '*.{h,m}'
+  end
+
+  spec.subspec 'Network' do |n|
+    n.source_files   = '*.{h,m}'
+  end
 end
