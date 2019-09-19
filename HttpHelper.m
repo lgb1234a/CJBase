@@ -9,10 +9,9 @@
 #import "HttpHelper.h"
 #import <AFNetworking/AFNetworking.h>
 #import <NIMSDK/NIMSDK.h>
-#import "BaseModel.h"
 #import "sys/utsname.h"
 #import "Reachability.h"
-#import "HttpConstant.h"
+//#import "HttpConstant.h"
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import "NSString+Cajian.h"

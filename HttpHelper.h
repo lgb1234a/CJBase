@@ -8,8 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
-@class BaseModel;
+#import "BaseModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

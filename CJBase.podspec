@@ -8,30 +8,34 @@ Pod::Spec.new do |spec|
   spec.source        = { :git => 'https://git.xq5.com/cajian/CJBase_flutter_iOS.git', :tag => spec.version }
   spec.platform     = :ios, '8.0'
   spec.source_files       = 'CJBase.h'
-  spec.public_header_files = 'CJBase.h'
+  # spec.public_header_files = 'CJBase.h'
 
   spec.framework      = 'SystemConfiguration'
 
+  spec.dependency 'AFNetworking'
+  spec.dependency 'NIMKit'
+  spec.dependency 'NIMSDK_LITE'
+  spec.dependency 'YYModel'
+  spec.dependency 'Reachability'
+
   spec.subspec 'Base' do |b|
-    b.source_files   = 'CJBase/XTSafeCollection.{h,m}'
+    b.source_files   = 'XTSafeCollection.{h,m}'
+
+    b.public_header_files = 'XTSafeCollection.h'
   end
 
   spec.subspec 'Category' do |c|
     c.dependency 'MBProgressHUD'
 
-    c.source_files   = 'CJBase/*{+}*.{h,m}'
+    c.source_files   = '*+*.{h,m}'
+    c.public_header_files = '*+*.h'
   end
 
   spec.subspec 'Network' do |n|
     n.dependency 'CJBase/Category'
     n.dependency 'CJBase/Base'
 
-    n.dependency 'AFNetworking'
-    n.dependency 'NIMKit'
-    n.dependency 'NIMSDK_LITE'
-    n.dependency 'YYModel'
-    n.dependency 'Reachability'
-
-    n.source_files   = 'CJBase/{HttpHelper, HttpConstant, BaseModel}.{h,m}'
+    n.source_files   = '{BaseModel, HttpHelper}.{h,m}'
+    n.public_header_files = '{BaseModel, HttpHelper}.h'
   end
 end
