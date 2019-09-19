@@ -7,7 +7,9 @@ Pod::Spec.new do |spec|
   spec.summary       = 'Base private pod for cajian'
   spec.source        = { :git => 'https://git.xq5.com/cajian/CJBase_flutter_iOS.git', :tag => spec.version }
   spec.platform     = :ios, '8.0'
-  spec.source_files       = '*.{h,m}'
+
+  spec.source_files       = '**/*.{h,m}', '*.{h,m}'
+  spec.public_header_files = '**/*.{h}', '*.h'
 
   spec.framework      = 'SystemConfiguration'
 
@@ -18,15 +20,24 @@ Pod::Spec.new do |spec|
   spec.dependency 'Reachability'
   spec.dependency 'MBProgressHUD'
 
-  spec.subspec 'Base' do |b|
-    b.source_files   = '*.{h,m}'
-  end
+  # spec.subspec 'Base' do |b|
+  #   b.source_files   = 'Base/*.{h,m}'
 
-  spec.subspec 'Category' do |c|
-    c.source_files   = '*.{h,m}'
-  end
+  #   b.public_header_files = 'Base/*.h'
+  # end
 
-  spec.subspec 'Network' do |n|
-    n.source_files   = '*.{h,m}'
-  end
+  # spec.subspec 'Category' do |c|
+  #   c.dependency 'MBProgressHUD'
+
+  #   c.source_files   = 'Category/*.{h,m}'
+  #   c.public_header_files = 'Category/*.h'
+  # end
+
+  # spec.subspec 'Network' do |n|
+  #   n.dependency 'CJBase/Category'
+  #   n.dependency 'CJBase/Base'
+
+  #   n.source_files   = 'Network/*.{h,m}', 'HttpConstant.h'
+  #   n.public_header_files = 'Network/*.h'
+  # end
 end
