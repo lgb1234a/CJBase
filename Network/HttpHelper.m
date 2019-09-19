@@ -11,7 +11,7 @@
 #import <NIMSDK/NIMSDK.h>
 #import "sys/utsname.h"
 #import "Reachability.h"
-//#import "HttpConstant.h"
+#import "HttpConstant.h"
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import "NSString+Cajian.h"
