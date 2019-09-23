@@ -303,18 +303,23 @@ static inline NSString *signForUrlString(NSString *urlStr)
     [task resume];
 }
 
-+ (void)postWithURL:(NSString *)url
-             params:(NSDictionary *)params
-            success:(void (^)(BaseModel *model))success
-            failure:(void (^)(NSError *error))failure{
++ (COPromise *)post:(NSString *)url params:(NSDictionary *)params
+{
+    COPromise *p = [COPromise promise];
     
-    [[HttpHelper sharedHelper] postWithURL:url params:params success:success failure:failure];
+    [[HttpHelper sharedHelper] postWithURL:url params:params success:^(BaseModel *model) {
+        [p fulfill:model];
+    } failure:^(NSError *error) {
+        [p reject:error];
+    }];
+    
+    return p;
 }
 
 - (void)getWithURL:(NSString *)url
             params:(NSDictionary *)params
-           success:(void (^)(id))success
-           failure:(void (^)(NSError *))failure{
+           success:(void (^)(id response))success
+           failure:(void (^)(NSError *error))failure{
     
     NSString *query = YXQueryStringFromParameters(params);
     NSString *requestKey = stringAppding(url, query, nil);
@@ -358,19 +363,26 @@ static inline NSString *signForUrlString(NSString *urlStr)
     }
 }
 
-+ (void)getWithURL:(NSString *)url
+
++ (COPromise *)get:(NSString *)url
             params:(NSDictionary *)params
-           success:(void (^)(id))success
-           failure:(void (^)(NSError *))failure
 {
-    [[HttpHelper sharedHelper] getWithURL:url params:params success:success failure:failure];
+    COPromise *p = [COPromise promise];
+    
+    [[HttpHelper sharedHelper] getWithURL:url params:params success:^(id response) {
+        [p fulfill:response];
+    } failure:^(NSError *error) {
+        [p reject:error];
+    }];
+    
+    return p;
 }
 
-- (void)postInforTopImgWithUrl:(NSString *)url
-                        parame:(NSDictionary *)params
-                          path:(NSString *)path
-                       success:(void (^)(id json))success
-                       failure:(void (^)(NSError *error))failure{
+- (void)upload:(NSString *)url
+        params:(NSDictionary *)params
+          path:(NSString *)path
+       success:(void (^)(id json))success
+       failure:(void (^)(NSError *error))failure{
     
     if(!self.httpSession) {
         self.httpSession = [AFHTTPSessionManager manager];
@@ -402,13 +414,20 @@ static inline NSString *signForUrlString(NSString *urlStr)
     }];
 }
 
-+ (void)postInforTopImgWithUrl:(NSString *)url
-                        parame:(NSDictionary *)params
-                          path:(NSString *)path
-                       success:(void (^)(id json))success
-                       failure:(void (^)(NSError *error))failure
+
++ (COPromise *)upload:(NSString *)url
+               params:(NSDictionary *)params
+                 path:(NSString *)path
 {
-    [[HttpHelper sharedHelper] postInforTopImgWithUrl:url parame:params path:path success:success failure:failure];
+    COPromise *p = [COPromise promise];
+    
+    [[HttpHelper sharedHelper] upload:url params:params path:path success:^(id json) {
+        [p fulfill:json];
+    } failure:^(NSError *error) {
+        [p reject:error];
+    }];
+    
+    return p;
 }
 
 
