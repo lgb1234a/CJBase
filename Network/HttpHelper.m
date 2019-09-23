@@ -20,7 +20,7 @@
 #import <YYModel/YYModel.h>
 
 // 字符串拼接函数
-NSString *stringAppding(NSString *baseString, ...) {
+NSString *cj_stringAppding(NSString *baseString, ...) {
     NSMutableString *mutStr = baseString.mutableCopy;
     va_list args;
     NSString *arg;
@@ -44,7 +44,7 @@ NSString *stringAppding(NSString *baseString, ...) {
  - parameter string: The string to be percent-escaped.
  - returns: The percent-escaped string.
  */
-NSString * YXPercentEscapedStringFromString(NSString *string) {
+NSString * CJPercentEscapedStringFromString(NSString *string) {
     static NSString * const kAFCharactersGeneralDelimitersToEncode = @":#[]@"; // does not include "?" or "/" due to RFC 3986 - Section 3.4
     static NSString * const kAFCharactersSubDelimitersToEncode = @"!$&'()*+,;=";
     
@@ -77,7 +77,7 @@ NSString * YXPercentEscapedStringFromString(NSString *string) {
 }
 
 // 键值对象 参见AFQueryStringPair
-@interface YXQueryStringPair : NSObject
+@interface CJQueryStringPair : NSObject
 @property (readwrite, nonatomic, strong) id field;
 @property (readwrite, nonatomic, strong) id value;
 
@@ -86,7 +86,7 @@ NSString * YXPercentEscapedStringFromString(NSString *string) {
 - (NSString *)URLEncodedStringValue;
 @end
 
-@implementation YXQueryStringPair
+@implementation CJQueryStringPair
 
 - (instancetype)initWithField:(id)field value:(id)value {
     self = [super init];
@@ -102,11 +102,11 @@ NSString * YXPercentEscapedStringFromString(NSString *string) {
 
 - (NSString *)URLEncodedStringValue {
     if (!self.value || [self.value isEqual:[NSNull null]]) {
-        return YXPercentEscapedStringFromString([self.field description]);
+        return CJPercentEscapedStringFromString([self.field description]);
     } else {
-        NSString *key = YXPercentEscapedStringFromString([self.field description]);
+        NSString *key = CJPercentEscapedStringFromString([self.field description]);
         key = [key lowercaseString];
-        return [NSString stringWithFormat:@"%@=%@", key, YXPercentEscapedStringFromString([self.value description])];
+        return [NSString stringWithFormat:@"%@=%@", key, CJPercentEscapedStringFromString([self.value description])];
     }
 }
 
@@ -123,9 +123,9 @@ NSString * YXPercentEscapedStringFromString(NSString *string) {
 @implementation HttpHelper
 
 // 构造query
-NSString * YXQueryStringFromParameters(NSDictionary *parameters) {
+NSString * CJQueryStringFromParameters(NSDictionary *parameters) {
     NSMutableArray *mutablePairs = [NSMutableArray array];
-    for (YXQueryStringPair *pair in YXQueryStringPairsFromDictionary(parameters)) {
+    for (CJQueryStringPair *pair in CJQueryStringPairsFromDictionary(parameters)) {
         if(!pair.value || [pair.value isEqual:[NSNull null]]) {
             continue;
         }else if ([pair.value isKindOfClass:NSString.class]) {
@@ -140,12 +140,12 @@ NSString * YXQueryStringFromParameters(NSDictionary *parameters) {
     return [mutablePairs componentsJoinedByString:@"&"];
 }
 
-NSArray * YXQueryStringPairsFromDictionary(NSDictionary *dictionary) {
-    return YXQueryStringPairsFromKeyAndValue(nil, dictionary);
+NSArray * CJQueryStringPairsFromDictionary(NSDictionary *dictionary) {
+    return CJQueryStringPairsFromKeyAndValue(nil, dictionary);
 }
 
 // 拆分容器，组装键值对象pair
-NSArray * YXQueryStringPairsFromKeyAndValue(NSString *key, id value) {
+NSArray * CJQueryStringPairsFromKeyAndValue(NSString *key, id value) {
     NSMutableArray *mutableQueryStringComponents = [NSMutableArray array];
     
     NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"description" ascending:YES selector:@selector(compare:)];
@@ -156,20 +156,20 @@ NSArray * YXQueryStringPairsFromKeyAndValue(NSString *key, id value) {
         for (id nestedKey in [dictionary.allKeys sortedArrayUsingDescriptors:@[ sortDescriptor ]]) {
             id nestedValue = dictionary[nestedKey];
             if (nestedValue) {
-                [mutableQueryStringComponents addObjectsFromArray:YXQueryStringPairsFromKeyAndValue((key ? [NSString stringWithFormat:@"%@[%@]", key, nestedKey] : nestedKey), nestedValue)];
+                [mutableQueryStringComponents addObjectsFromArray:CJQueryStringPairsFromKeyAndValue((key ? [NSString stringWithFormat:@"%@[%@]", key, nestedKey] : nestedKey), nestedValue)];
             }
         }
     } else if ([value isKindOfClass:[NSArray class]]) {
         
         NSString *arr_str = [NSString dictionaryOrArrayToJson:value];
-        [mutableQueryStringComponents addObject:[[YXQueryStringPair alloc] initWithField:key value:arr_str]];
+        [mutableQueryStringComponents addObject:[[CJQueryStringPair alloc] initWithField:key value:arr_str]];
     } else if ([value isKindOfClass:[NSSet class]]) {
         NSSet *set = value;
         for (id obj in [set sortedArrayUsingDescriptors:@[ sortDescriptor ]]) {
-            [mutableQueryStringComponents addObjectsFromArray:YXQueryStringPairsFromKeyAndValue(key, obj)];
+            [mutableQueryStringComponents addObjectsFromArray:CJQueryStringPairsFromKeyAndValue(key, obj)];
         }
     } else {
-        [mutableQueryStringComponents addObject:[[YXQueryStringPair alloc] initWithField:key value:value]];
+        [mutableQueryStringComponents addObject:[[CJQueryStringPair alloc] initWithField:key value:value]];
     }
     
     return mutableQueryStringComponents;
@@ -209,8 +209,8 @@ static inline NSString *signForUrlString(NSString *urlStr)
             success:(void (^)(BaseModel *model))success
             failure:(void (^)(NSError *error))failure
 {
-    NSString *query = YXQueryStringFromParameters(params);
-    NSString *requestKey = stringAppding(url, query, nil);
+    NSString *query = CJQueryStringFromParameters(params);
+    NSString *requestKey = cj_stringAppding(url, query, nil);
     
     if([self.requestDict valueForKey:requestKey]) {
         // 过滤重复请求
@@ -321,8 +321,8 @@ static inline NSString *signForUrlString(NSString *urlStr)
            success:(void (^)(id response))success
            failure:(void (^)(NSError *error))failure{
     
-    NSString *query = YXQueryStringFromParameters(params);
-    NSString *requestKey = stringAppding(url, query, nil);
+    NSString *query = CJQueryStringFromParameters(params);
+    NSString *requestKey = cj_stringAppding(url, query, nil);
     if([self.requestDict valueForKey:requestKey]) {
         // 过滤重复请求
         return;
@@ -454,7 +454,7 @@ static inline NSString *signForUrlString(NSString *urlStr)
 {
     NSString *soltKeyValueStr = [NSString stringWithFormat:@"%@=%@",@"solt", solt];
     if (params) {
-        NSString *query = stringAppding(YXQueryStringFromParameters(params), @"&",soltKeyValueStr, nil);
+        NSString *query = cj_stringAppding(CJQueryStringFromParameters(params), @"&",soltKeyValueStr, nil);
         query = [query urlDecodedString];
         NSLog(@"签名：%@， MD5值：%@", query, [query MD5String]);
         return [query MD5String] ? : @"";
