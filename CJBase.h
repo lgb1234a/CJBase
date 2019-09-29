@@ -8,6 +8,10 @@
 #import "NSString+Cajian.h"
 #import "UIViewController+HUD.h"
 #import "XTSafeCollection.h"
+#import "UIColor+YYAdd.h"
+#import "UIView+CJXib.h"
+#import "cokit.h"
+#import "coobjc.h"
 
 
 static NSString *CJUpdateMessageNotification = @"CJUpdateMessageNotification";
@@ -63,3 +67,8 @@ _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"") \
 Stuff; \
 _Pragma("clang diagnostic pop") \
 } while (0)
+
+
+/* weak reference */
+#define CJ_WEAK_SELF(weakSelf) __weak __typeof(&*self) weakSelf = self;
+#define CJ_STRONG_SELF(strongSelf) __strong __typeof(&*weakSelf) strongSelf = weakSelf;
