@@ -11,11 +11,12 @@
 
 - (void)deleteBackward
 {
+    BOOL deleteBeforeHasText = [super hasText];
     [super deleteBackward];
     
-    if(self.cjInputDelegate && [self.cjInputDelegate respondsToSelector:@selector(deleteBackward)])
+    if(self.cjInputDelegate && [self.cjInputDelegate respondsToSelector:@selector(deleteBackward:)])
     {
-        [self.cjInputDelegate deleteBackward];
+        [self.cjInputDelegate deleteBackward:deleteBeforeHasText];
     }
 }
 

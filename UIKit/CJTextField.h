@@ -9,7 +9,8 @@
 
 @protocol CJTextFieldInput <NSObject>
 
-- (void)deleteBackward;
+@optional
+- (void)deleteBackward:(BOOL)beforeHasText;
 
 @end
 NS_ASSUME_NONNULL_BEGIN

@@ -73,3 +73,6 @@ _Pragma("clang diagnostic pop") \
 /* weak reference */
 #define CJ_WEAK_SELF(weakSelf) __weak __typeof(&*self) weakSelf = self;
 #define CJ_STRONG_SELF(strongSelf) __strong __typeof(&*weakSelf) strongSelf = weakSelf;
+
+#define cj_empty_array(arr) (arr.count == 0)
+
