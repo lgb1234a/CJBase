@@ -10,7 +10,6 @@
 #import "XTSafeCollection.h"
 #import "UIColor+YYAdd.h"
 #import "UIView+CJXib.h"
-#import "cokit.h"
 #import "coobjc.h"
 #import "CJTextField.h"
 
