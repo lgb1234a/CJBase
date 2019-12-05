@@ -4,7 +4,7 @@
 //
 //  Created by chenyn on 2019/9/27.
 //  Copyright © 2019 The Chromium Authors. All rights reserved.
-//
+//  选择联系人
 
 #import "CJContactSelectViewController.h"
 #import "CJContactSelectConfig.h"
@@ -152,14 +152,19 @@ CJSearchHeaderDelegate>
 // 点击返回
 - (void)onCancelBtnClick:(id)sender
 {
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    if(self.navigationController.viewControllers.firstObject != self) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else {
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 // 点击完成
 - (void)onConfirmBtnClicked:(id)sender
 {
-    [self.navigationController dismissViewControllerAnimated:YES
-                                                  completion:nil];
+    // 返回
+    [self onCancelBtnClick:nil];
+    
     if (self.finished) {
         NSMutableArray *selectedIds = @[].mutableCopy;
         [self.selectedUsers enumerateObjectsUsingBlock:^(id <NIMGroupMemberProtocol>_Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -317,7 +322,7 @@ CJSearchHeaderDelegate>
 /**
  取消选中
  
- @param item
+ @param item item
  */
 - (void)searchHeaderDeselect:(id<NIMGroupMemberProtocol>)item
 {

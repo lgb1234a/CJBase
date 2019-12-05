@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name          = 'CJBase'
-  spec.version       = '0.15'
+  spec.version       = '0.17'
   spec.license       = 'Copyright (c) 2019年 Chenyn. All rights reserved.'
   spec.homepage      = 'https://git.xq5.com/cajian/CJBase.git'
   spec.authors       = { 'Chenyn le' => 'chenynle@gmail.com' }

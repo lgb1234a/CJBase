@@ -90,7 +90,9 @@ _Pragma("clang diagnostic pop") \
 #define CJ_WEAK_SELF(weakSelf) __weak __typeof(&*self) weakSelf = self;
 #define CJ_STRONG_SELF(strongSelf) __strong __typeof(&*weakSelf) strongSelf = weakSelf;
 
-#define cj_empty_array(arr) (arr.count == 0)
+#define cj_empty_array(arr) (arr == nil || arr.count == 0)
+
+#define cj_empty_string(string) (string == nil || string.length == 0)
 
 
 #endif /* CJBaseMacro_h */

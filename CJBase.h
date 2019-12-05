@@ -13,4 +13,5 @@
 #import "coobjc.h"
 #import "CJTextField.h"
 #import "CJBaseMacro.h"
+#import "CJShareModel.h"
 
