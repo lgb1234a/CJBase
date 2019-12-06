@@ -15,4 +15,5 @@
 #import "CJBaseMacro.h"
 #import "CJShareModel.h"
 #import "NSData+NTAdd.h"
+#import "NSArray+Cajian.h"
 
