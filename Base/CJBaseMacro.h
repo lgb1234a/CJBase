@@ -95,4 +95,16 @@ _Pragma("clang diagnostic pop") \
 #define cj_empty_string(string) (string == nil || string.length == 0)
 
 
+/**
+ 说明：在链接静态库的时候如果使用了category，在编译到静态库时，这些代码模块实际上是存在不同的obj文件里的。程序在连接Category方法时，实际上只加载了Category模块，扩展的基类代码并没有被加载。这样，程序虽然可以编译通过，但是在运行时，因为找不到基类模块，就会出现unrecognized selector 这样的错误。我们可以在Other Linker Flags中添加-all_load、-force_load、-ObjC等flag解决该问题，同时也可以使用如下的宏
+ 使用：
+ NT_SYNTH_DUMMY_CLASS(NSString_NTAdd)
+ */
+#ifndef NT_SYNTH_DUMMY_CLASS
+#define NT_SYNTH_DUMMY_CLASS(_name_) \
+@interface NT_SYNTH_DUMMY_CLASS_ ## _name_ : NSObject @end \
+@implementation NT_SYNTH_DUMMY_CLASS_ ## _name_ @end
+#endif
+
+
 #endif /* CJBaseMacro_h */

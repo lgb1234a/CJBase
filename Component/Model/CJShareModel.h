@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 留言,用户在转发给其他擦肩用户的时候可以额外输入的信息
 @property (nonatomic, copy) NSString *leaveMessage;
 
-- (COPromise *)share:(NIMSession *)session;
+- (COPromise *)shareTo:(NIMSession *)session;
 
 @end
 

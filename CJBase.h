@@ -14,4 +14,5 @@
 #import "CJTextField.h"
 #import "CJBaseMacro.h"
 #import "CJShareModel.h"
+#import "NSData+NTAdd.h"
 
