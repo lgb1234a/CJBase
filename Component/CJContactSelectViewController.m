@@ -14,6 +14,7 @@
 #import "UIColor+YYAdd.h"
 #import "XTSafeCollection.h"
 #import "CJBaseMacro.h"
+#import "NSArray+Cajian.h"
 
 @interface CJContactSelectViewController ()
 <
@@ -29,11 +30,14 @@ CJSearchHeaderDelegate>
 
 @property (nonatomic, strong) NSMutableArray *selectedIds;
 
+/// 同步config.alreadySelectedIds获取的数据,用来渲染第一个已选中区块
+@property (nonatomic, strong) NSMutableArray <id <NIMGroupMemberProtocol>>*alreadySelectedUsers;
+
 @property (nonatomic, strong) UITableView *mTableView;
 
-@property (nonatomic, copy) NSArray *sectionTitles;
+@property (nonatomic, strong) NSMutableArray *sectionTitles;
 
-@property (nonatomic, copy) NSDictionary *contentDic;
+@property (nonatomic, strong) NSMutableDictionary *contentDic;
 
 @property (nonatomic, strong) UIButton *barRightBtn;
 
@@ -98,20 +102,40 @@ CJSearchHeaderDelegate>
 - (void)configMemebrData
 {
     [self.config getContactData:^(NSDictionary *contentDic, NSArray *titles) {
-        self.sectionTitles = titles.copy;
-        self.contentDic = contentDic.copy;
+        self.sectionTitles = @[].mutableCopy;
+        self.contentDic = @{}.mutableCopy;
         self.selectedUsers = @[].mutableCopy;
         self.selectedIds = @[].mutableCopy;
         self.allUsers = @[].mutableCopy;
+        self.alreadySelectedUsers = @[].mutableCopy;
         
         for (NSString *title in titles) {
+            // 将已选中的提前
             NSArray <id <NIMGroupMemberProtocol>>*arr = [contentDic objectForKey:title];
-            [self.allUsers addObjectsFromArray:arr];
+            
+            NSArray *unSlctedMembers = [arr cj_filter:^BOOL(id <NIMGroupMemberProtocol> obj) {
+                return ![self.config.alreadySelectedMemberId containsObject:obj.memberId];
+            }];
+            
+            if(!cj_empty_array(unSlctedMembers)) {
+                [self.sectionTitles addObject:title];
+                [self.allUsers addObjectsFromArray:unSlctedMembers];
+                [self.contentDic setObject:unSlctedMembers forKey:title];
+            }
+            
             [arr enumerateObjectsUsingBlock:^(id <NIMGroupMemberProtocol> _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 if ([self.config.alreadySelectedMemberId containsObject:obj.memberId]) {
                     [self selected:obj];
+                    
+                    // 这个只在第一次初始化，所以不能放到selected里面
+                    [self.alreadySelectedUsers addObject:obj];
                 }
             }];
+        }
+        
+        // 新增早已选中区块
+        if(!cj_empty_array(self.alreadySelectedUsers)) {
+            [self.sectionTitles insertObject:@"" atIndex:0];
         }
         
         [self.mTableView reloadData];
@@ -226,6 +250,9 @@ CJSearchHeaderDelegate>
 {
     if(_inSearching) {
         return self.currentDataSource.count;
+    }else if(section == 0 && !cj_empty_array(self.alreadySelectedUsers)) {
+        // 已选中区块
+        return self.alreadySelectedUsers.count;
     }
     NSString *title = [self.sectionTitles tn_objectAtIndex:section];
     NSArray *arr = [self.contentDic objectForKey:title];
@@ -239,7 +266,11 @@ CJSearchHeaderDelegate>
     id<NIMGroupMemberProtocol> user = nil;
     if(_inSearching) {
         user = [self.currentDataSource objectAtIndex:indexPath.row];
-    }else {
+    }else if(indexPath.section == 0 && !cj_empty_array(self.alreadySelectedUsers)) {
+        // 早已选中
+        user = [self.alreadySelectedUsers tn_objectAtIndex:indexPath.row];
+    }
+    else {
         NSString *title = [self.sectionTitles tn_objectAtIndex:indexPath.section];
         NSArray *arr = [self.contentDic objectForKey:title];
         user = [arr tn_objectAtIndex:indexPath.row];
@@ -281,7 +312,6 @@ CJSearchHeaderDelegate>
     if(_inSearching) {
         return @[];
     }
-    
     return self.sectionTitles;
 }
 
@@ -293,7 +323,12 @@ CJSearchHeaderDelegate>
         [self selected:user];
         
         self.inSearching = NO;
-    }else {
+    }else if(indexPath.section == 0 && !cj_empty_array(self.alreadySelectedUsers)) {
+        id<NIMGroupMemberProtocol> user =  [self.alreadySelectedUsers tn_objectAtIndex:indexPath.row];
+        
+        [self selected:user];
+    }
+    else {
         NSString *title = [self.sectionTitles tn_objectAtIndex:indexPath.section];
         NSArray *arr = [self.contentDic objectForKey:title];
         id<NIMGroupMemberProtocol> user = [arr tn_objectAtIndex:indexPath.row];
@@ -309,7 +344,12 @@ CJSearchHeaderDelegate>
         [self deselected:user];
         
         self.inSearching = NO;
-    }else {
+    }else if(indexPath.section == 0 && !cj_empty_array(self.alreadySelectedUsers)) {
+        id<NIMGroupMemberProtocol> user =  [self.alreadySelectedUsers tn_objectAtIndex:indexPath.row];
+        
+        [self deselected:user];
+    }
+    else {
         NSString *title = [self.sectionTitles tn_objectAtIndex:indexPath.section];
         NSArray *arr = [self.contentDic objectForKey:title];
         id<NIMGroupMemberProtocol> user = [arr tn_objectAtIndex:indexPath.row];
