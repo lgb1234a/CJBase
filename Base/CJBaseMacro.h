@@ -11,6 +11,8 @@
 
 static NSString *CJUpdateMessageNotification = @"CJUpdateMessageNotification";
 
+static NSString *CJWxAppKey = @"wx0454f5a3494b5313";
+
 #define Notification_Font_Size   11   // 通知文字大小
 
 #define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
