@@ -9,7 +9,7 @@
 
 @implementation NSArray (Cajian)
 
-- (NSArray*)cj_map:(id(^)(id))transform {
+- (NSArray*)cj_map:(id(^)(id obj))transform {
     NSMutableArray *array = [[NSMutableArray alloc] init];
     [self enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [array addObject:transform(obj)];
@@ -18,7 +18,7 @@
     
 }
 
-- (NSArray*)cj_filter:(BOOL(^)(id))includeElement {
+- (NSArray*)cj_filter:(BOOL(^)(id obj))includeElement {
     NSMutableArray *array = [[NSMutableArray alloc] init];
     
     [self enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
