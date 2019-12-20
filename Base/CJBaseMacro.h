@@ -96,7 +96,9 @@ _Pragma("clang diagnostic pop") \
 
 #define cj_empty_string(string) (string == nil || string.length == 0)
 
-#define cj_nil_object(obj) (obj == nil || obj == [NSNull null])
+#define cj_is_nil_object(obj) (obj == nil || obj == [NSNull null])
+
+#define cj_not_nil_object(obj) (obj?:[NSNull null])
 
 #define cj_dispatch_async_main_safe(block)\
 if ([NSThread isMainThread]) {\
