@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name          = 'CJBase'
-  spec.version       = '0.18'
+  spec.version       = '0.19'
   spec.license       = 'Copyright (c) 2019年 Chenyn. All rights reserved.'
   spec.homepage      = 'https://git.xq5.com/cajian/CJBase.git'
   spec.authors       = { 'Chenyn le' => 'chenynle@gmail.com' }
@@ -20,6 +20,7 @@ Pod::Spec.new do |spec|
   spec.dependency 'YYModel'
   spec.dependency 'Reachability'
   spec.dependency 'MBProgressHUD'
+  spec.dependency 'Flutter'
 
   # spec.subspec 'Base' do |b|
   #   b.source_files   = 'Base/*.{h,m}'

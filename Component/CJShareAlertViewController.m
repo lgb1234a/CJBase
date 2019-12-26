@@ -135,6 +135,7 @@
         _previewLabel = [UILabel new];
         _previewLabel.font = [UIFont systemFontOfSize:14];
         _previewLabel.numberOfLines = 2;
+        _previewLabel.textColor = Main_TextGrayColor;
     }
     return _previewLabel;
 }
@@ -269,6 +270,10 @@
         [self.bgView addSubview:self.previewLabel];
         CJShareTextModel *textModel = (CJShareTextModel *)self.shareModel;
         self.previewLabel.text = textModel.text;
+    }else if(self.shareModel.type == CajianShareTypeBusinessCard) {
+        [self.bgView addSubview:self.previewLabel];
+        CJShareBusinessCardModel *cardModel = (CJShareBusinessCardModel *)self.shareModel;
+        self.previewLabel.text = [NSString stringWithFormat:@"[个人名片]%@", cardModel.nickName];
     }
 }
 

@@ -10,6 +10,7 @@
 #import <NIMKit.h>
 #import <coobjc/coobjc.h>
 #import "NSData+NTAdd.h"
+#import <Flutter/Flutter.h>
 
 @interface CJShareModel ()
 
@@ -19,6 +20,22 @@
 
 @implementation CJShareModel
 
+- (instancetype)initWithData:(NSDictionary *)shareData
+{
+    self = [super init];
+    if(self) {
+        NSInteger type = [shareData[@"type"] integerValue];
+        
+        if(type == CajianShareTypeText) {
+            return [[CJShareTextModel alloc] initWithData:shareData];
+        }else if(type == CajianShareTypeImage) {
+            return [[CJShareImageModel alloc] initWithData:shareData];
+        }else if(type == CajianShareTypeBusinessCard) {
+            return [[CJShareBusinessCardModel alloc] initWithData:shareData];
+        }
+    }
+    return self;
+}
 
 - (CajianShareType)type
 {
@@ -54,13 +71,6 @@
         [params setObject:imgString?:@"" forKey:@"image_data"];
     }else
     {
-//        @{
-//            @"title": title?:@"",
-//            @"content": content?:@"",
-//            @"web_url": url?:@"",
-//            @"image_data": image?:@"",
-//            @"extention": extention?:@""
-//        }
     }
 
     BaseModel *model = await([HttpHelper post:@"https://centerapi.youxi2018.cn/client/app/show"
@@ -79,11 +89,13 @@
 
 @implementation CJShareTextModel
 
-- (instancetype)init
+- (instancetype)initWithData:(NSDictionary *)shareData
 {
     self = [super init];
     if (self) {
         self.myType = CajianShareTypeText;
+        
+        self.text = shareData[@"text"];
     }
     return self;
 }
@@ -92,11 +104,32 @@
 
 @implementation CJShareImageModel
 
-- (instancetype)init
+- (instancetype)initWithData:(NSDictionary *)shareData
 {
     self = [super init];
     if (self) {
         self.myType = CajianShareTypeImage;
+        
+        FlutterStandardTypedData *imgData = shareData[@"imgData"];
+        self.imageData = imgData.data;
+    }
+    return self;
+}
+
+@end
+
+
+@implementation CJShareBusinessCardModel
+
+- (instancetype)initWithData:(NSDictionary *)shareData
+{
+    self = [super init];
+    if (self) {
+        self.myType = CajianShareTypeBusinessCard;
+        
+        self.accid = shareData[@"accid"];
+        self.nickName = shareData[@"nickName"];
+        self.imageUrl = shareData[@"imageUrl"];
     }
     return self;
 }

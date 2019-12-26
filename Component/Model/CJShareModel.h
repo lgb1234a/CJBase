@@ -21,15 +21,19 @@
 typedef NS_ENUM(NSInteger, CajianShareType) {
     CajianShareTypeText = 0,
     CajianShareTypeImage,
+    /// 个人名片
+    CajianShareTypeBusinessCard = 7,
+    /// 应用
     CajianShareTypeApp = 12,
+    /// 链接
     CajianShareTypeLink = 13,
     CajianShareEmoticonObjectType,
     CajianShareLocationObjectType,
-    CajianShareVisitingCardObjectType,
     CajianShareVideoObjectType,
 };
 
 NS_ASSUME_NONNULL_BEGIN
+
 
 @interface CJShareModel : NSObject
 
@@ -40,6 +44,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// 留言,用户在转发给其他擦肩用户的时候可以额外输入的信息
 @property (nonatomic, copy) NSString *leaveMessage;
 
+- (instancetype)initWithData:(NSDictionary *)shareData;
+
+
+///  走开放平台接口分享
 - (COPromise *)shareTo:(NIMSession *)session;
 
 @end
@@ -59,6 +67,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *imageUrl;
 /// 分享的图片本身
 @property(nonatomic, strong) NSData *imageData;
+
+@end
+
+
+/// 个人名片
+@interface CJShareBusinessCardModel : CJShareModel
+
+@property (nonatomic, copy) NSString *accid;
+
+@property (nonatomic, copy) NSString *nickName;
+
+@property (nonatomic, copy) NSString *imageUrl;
 
 @end
 
