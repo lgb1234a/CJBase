@@ -91,11 +91,20 @@
 
 - (instancetype)initWithData:(NSDictionary *)shareData
 {
+    self = [self init];
+    if (self) {
+        self.text = shareData[@"text"];
+    }
+    return self;
+}
+
+
+/// 唯一指定入口
+- (instancetype)init
+{
     self = [super init];
     if (self) {
         self.myType = CajianShareTypeText;
-        
-        self.text = shareData[@"text"];
     }
     return self;
 }
@@ -106,12 +115,20 @@
 
 - (instancetype)initWithData:(NSDictionary *)shareData
 {
+    self = [self init];
+    if (self) {
+        FlutterStandardTypedData *imgData = shareData[@"imgData"];
+        self.imageData = imgData.data;
+    }
+    return self;
+}
+
+/// 唯一指定入口
+- (instancetype)init
+{
     self = [super init];
     if (self) {
         self.myType = CajianShareTypeImage;
-        
-        FlutterStandardTypedData *imgData = shareData[@"imgData"];
-        self.imageData = imgData.data;
     }
     return self;
 }
@@ -123,13 +140,21 @@
 
 - (instancetype)initWithData:(NSDictionary *)shareData
 {
-    self = [super init];
+    self = [self init];
     if (self) {
-        self.myType = CajianShareTypeBusinessCard;
-        
         self.accid = shareData[@"accid"];
         self.nickName = shareData[@"nickName"];
         self.imageUrl = shareData[@"imageUrl"];
+    }
+    return self;
+}
+
+/// 唯一指定入口
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.myType = CajianShareTypeBusinessCard;
     }
     return self;
 }
