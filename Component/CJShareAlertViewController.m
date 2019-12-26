@@ -58,7 +58,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:0.4];
     
     [self configUI];
     
@@ -190,7 +190,7 @@
     CGFloat sessionInfoHeight = 60.f;
     CGFloat contentHeight = 0.f;
     CGFloat textInputHeight = 33.f;
-    CGFloat mariginVertical = 5.f;
+    CGFloat marginVertical = 10.f;
     CGFloat actionHeight = 44.f;
     
     if(self.shareModel.type == CajianShareTypeImage) {
@@ -199,17 +199,17 @@
         contentHeight = 44.f;
     }
     
-    CGFloat bgViewHeight = sessionInfoHeight + contentHeight + textInputHeight + actionHeight + mariginVertical * 2;
+    CGFloat bgViewHeight = sessionInfoHeight + contentHeight + textInputHeight + actionHeight + marginVertical * 3;
     CGFloat bgViewWidth = SCREEN_WIDTH - horizontalPadding * 2;
     self.bgView.frame = CGRectMake(horizontalPadding,
                                    (SCREEN_HEIGHT - bgViewHeight)*0.5,
                                    bgViewWidth,
                                    bgViewHeight);
     
-    self.sessionAvatar.frame = CGRectMake(12, 5, 50, 50);
+    self.sessionAvatar.frame = CGRectMake(12, marginVertical, 50, 50);
     
     self.sessionLabel.frame = CGRectMake(70,
-                                         20,
+                                         25,
                                          SCREEN_WIDTH - 70 - horizontalPadding,
                                          20);
     [self.sessionLabel sizeToFit];
@@ -224,17 +224,17 @@
                                          contentHeight);
     
     self.aliasInput.frame = CGRectMake(12,
-                                       bgViewHeight - actionHeight - textInputHeight +
-                                       mariginVertical,
+                                       bgViewHeight - actionHeight - textInputHeight -
+                                       marginVertical * 2,
                                        bgViewWidth - 24, textInputHeight);
     
     self.cancelButton.frame = CGRectMake(0,
-                                         bgViewHeight - actionHeight + mariginVertical,
+                                         bgViewHeight - actionHeight - marginVertical,
                                          bgViewWidth*0.5,
                                          actionHeight);
     
     self.confirmButton.frame = CGRectMake(bgViewWidth*0.5,
-                                          bgViewHeight - actionHeight + mariginVertical,
+                                          bgViewHeight - actionHeight - marginVertical,
                                           bgViewWidth*0.5,
                                           actionHeight);
 }
